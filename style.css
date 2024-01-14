@@ -7,7 +7,7 @@
 .mainFrame {
     border: 5px rgb(208, 0, 0) solid;
     width: 400px;
-    height: 500px;
+    height: 600px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10vh;
@@ -32,7 +32,40 @@
     background-color: white;
 }
 
-.num {
+.num, .operator {
     height: 70px;
     aspect-ratio: 1;
+    font-weight: bold;
+    font-size: 20px;
+}
+.num.btn-dot{
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.botPart{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.row-1,.row-2,.row-3,.row-4,.row-5{
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+.delete{
+    height: 50px;
+    width: 100px;
+    align-self: flex-start;
+}
+.operator{
+   background-color: rgb(255, 166, 0);
+   color : white;
+   font-size: 40px;
+}
+
+.btn-multiply{
+    padding-top: 20px;
 }
