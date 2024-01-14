@@ -4,11 +4,35 @@
     box-sizing: border-box;
 }
 
-.mainFrame{
-    border: 2px red solid;
+.mainFrame {
+    border: 5px rgb(208, 0, 0) solid;
     width: 400px;
     height: 500px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10vh;
+    border-radius: 4%/4%;
+    overflow: hidden; /* Ensure that content inside .mainFrame doesn't overflow */
+}
+
+.screen {
+    border: 1px rgba(0, 0, 0, 0) solid;
+    border-bottom: 5px black solid;
+    margin-bottom: 10px;
+    background-color: rgb(71, 69, 69);
+    border-top-left-radius: 4%/4%; /* Match the border radius of .mainFrame */
+    border-top-right-radius: 4%/4%; /* Match the border radius of .mainFrame */
+}
+
+.screen--inner{
+    border: 2px blue solid;
+    height: 120px;
+    margin: 15px;
+    border-radius: 10%/30%;
+    background-color: white;
+}
+
+.num {
+    height: 70px;
+    aspect-ratio: 1;
 }
