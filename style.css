@@ -46,7 +46,7 @@
     align-self: flex-end;
 }
 
-.num, .operator {
+.num, .operator, .calculate {
     height: 70px;
     aspect-ratio: 1;
     font-weight: bold;
@@ -82,6 +82,10 @@
 
 .btn-multiply{
     padding-top: 20px;
+}
+
+.powerImg{
+    margin-left: 5px;
 }
 
 .delete{
