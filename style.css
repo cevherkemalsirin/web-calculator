@@ -30,6 +30,20 @@
     margin: 15px;
     border-radius: 10%/30%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items:end;
+    padding-right: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+.calculation{
+    margin-right: 10px;
+}
+.result{
+    align-self: flex-end;
 }
 
 .num, .operator {
