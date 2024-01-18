@@ -58,7 +58,7 @@ bottomPart.addEventListener("click", (e)=>
         }
         else
         {
-
+            RemoveDigit();
         }
     }
 
@@ -116,8 +116,7 @@ function PressedNum(button)
     if(!isResultShown)
     {
         calculationText.textContent += button.textContent;
-
-        if(!operatorPressed)
+        if(!operator)
         {
             LeftValue = +calculationText.textContent;
         }
@@ -143,7 +142,21 @@ function CleanScreen()
 
 function RemoveDigit()
 {
-    
+    console.log(rightValue);
+        if(rightValue)
+        {
+            rightValue = Math.trunc(rightValue / 10);
+            calculationText.textContent = calculationText.textContent.slice(0,-1);
+        }
+        else if(operator)
+        {
+            operator = "";
+            calculationText.textContent =  calculationText.textContent.slice (0,-3);
+        }
+        else if(LeftValue)
+        {
+            calculationText.textContent = calculationText.textContent.slice(0,-1);
+        }
 }
 
 function ShowResult()
