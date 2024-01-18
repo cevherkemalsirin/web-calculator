@@ -70,22 +70,48 @@ function PressedOperator(button)
         }
         // if there are right value or result is shown.
         MoveResultToLeft(button);
-}
+    }
+} 
 
 function PressedNum(button)
 {
     // when result is shown on the screen, user should not press any numbers but operator or clean the screen.
     if(!isResultShown)
     {
-        calculationText.textContent += button.textContent;
-        if(!operator)
+        if(button.textContent === ".")
         {
-            LeftValue = +calculationText.textContent;
+            if(!operator)
+            {
+                if(!calculationText.textContent.split(" ")[0].includes("."))
+                {
+                    calculationText.textContent += button.textContent;
+                    LeftValue = +calculationText.textContent;
+                }
+            }
+            else
+            {
+                if(!calculationText.textContent.split(" ")[2].includes("."))
+                {
+                    calculationText.textContent += button.textContent;
+                    rightValue = +calculationText.textContent.split(" ")[2];
+                }
+ 
+            }
+            
         }
-        else
+        else 
         {
-            rightValue = +calculationText.textContent.split(" ")[2];
+            calculationText.textContent += button.textContent;
+            if(!operator)
+            {
+                LeftValue = +calculationText.textContent;
+            }
+            else
+            {
+                rightValue = +calculationText.textContent.split(" ")[2];
+            }
         }
+
     }
 
 }
