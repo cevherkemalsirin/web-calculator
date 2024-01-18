@@ -4,7 +4,8 @@
 let LeftValue, operator, rightValue;
 let currentResult = 0;
 let operatorPressed = false;
-let expression = "";
+let isResultShown = false;
+
 const calculationText = document.querySelector(".calculation");
 const resultText = document.querySelector(".result");
 const bottomPart = document.querySelector(".botPart");
@@ -40,34 +41,84 @@ bottomPart.addEventListener("click", (e)=>
     { 
         PressedOperator(button);
     }
+    else if(e.target.classList.contains("btn-equals"))
+    {
+        if(rightValue && !isResultShown)  // user should not spam = operator after showing the result.
+        {
+            calculationText.textContent += " = ";
+             ShowResult();
+        }
+    }
 
 });
 
-
 function PressedOperator(button)
 {
+    //if screen is clean and there is no number, User should not put operator without left value
     if(calculationText.textContent)
     {
-        if(!operatorPressed)
+        button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
+        if(!isResultShown)
         {
-            operatorPressed = true;
-           button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
-           calculationText.textContent += " " + operator; 
+            if(!operatorPressed)
+            {
+               operatorPressed = true;
+               calculationText.textContent += " " + operator + " " ; 
+            }
+            else  // if there is no right value and operator is spammed. Change the operator
+            {
+                calculationText.textContent = calculationText.textContent.split(" ")[0] + " " + operator + " ";
+            }
         }
         else
         {
+            ShowResult();
             button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
-            calculationText.textContent = calculationText.textContent.split(" ")[0] + " " + operator;
+            operatorPressed = true;
+            LeftValue = +resultText.textContent;
+            calculationText.textContent = `${LeftValue} ${operator} `;
+            isResultShown = false;
+            rightValue = 0;
+            resultText.innerHTML = "<br>";
         }
+
     }
 
 }
 
 function PressedNum(button)
 {
-    if(!operatorPressed)
+    // when result is shown on the screen, user should not press any numbers but operator or clean the screen.
+    if(!isResultShown)
     {
-        expression = button.textContent;
-        calculationText.textContent += `${expression}`;
+        calculationText.textContent += button.textContent;
+
+        if(!operatorPressed)
+        {
+            LeftValue = +calculationText.textContent;
+        }
+        else
+        {
+            rightValue = +calculationText.textContent.split(" ")[2];
+            operatorPressed = false;
+        }
     }
+
+}
+
+function CleanScreen()
+{
+    isResultShown = false;
+    rightValue = 0;
+    LeftValue = 0;
+    operator = "";
+    resultText.innerHTML = "<br>";
+    calculationText.textContent = "";
+    operatorPressed = false;
+}
+
+function ShowResult()
+{
+    resultText.textContent = Math.round(TextToCalc(calculationText.textContent) * 100) / 100;
+    isResultShown = true;
 }
