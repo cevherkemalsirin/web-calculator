@@ -9,6 +9,7 @@ let isResultShown = false;
 const calculationText = document.querySelector(".calculation");
 const resultText = document.querySelector(".result");
 const bottomPart = document.querySelector(".botPart");
+const clearBtn = document.querySelector(".btn-allClear");
 
 let operation = {
     "+" : (a,b) => a + b,
@@ -47,6 +48,17 @@ bottomPart.addEventListener("click", (e)=>
         {
             calculationText.textContent += " = ";
              ShowResult();
+        }
+    }
+    else if(e.target.classList.contains("delete"))
+    {
+        if(e.target.classList.contains("btn-allClear"))
+        {
+            CleanScreen();
+        }
+        else
+        {
+
         }
     }
 
@@ -127,6 +139,11 @@ function CleanScreen()
     resultText.innerHTML = "<br>";
     calculationText.textContent = "";
     operatorPressed = false;
+}
+
+function RemoveDigit()
+{
+    
 }
 
 function ShowResult()
