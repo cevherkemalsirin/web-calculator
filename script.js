@@ -1,7 +1,7 @@
 "use strict"
 
 // left hand side value and right hand value with the operator in between i.e. 2 + 4 
-let LeftValue, operator, rightValue;
+let LeftValue = 0, operator = "", rightValue = 0;
 let currentResult = 0;
 let operatorPressed = false;
 let isResultShown = false;
@@ -62,8 +62,20 @@ function PressedOperator(button)
         {
             if(!operatorPressed)
             {
-               operatorPressed = true;
-               calculationText.textContent += " " + operator + " " ; 
+                if(!rightValue)
+                {
+                    operatorPressed = true;
+                    calculationText.textContent += " " + operator + " " ; 
+                }
+                else
+                {
+                    LeftValue = Math.round(TextToCalc(calculationText.textContent) * 100) / 100;
+                    button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
+                    rightValue = "";
+                    calculationText.textContent = LeftValue + " " + operator + " " ; 
+                    operatorPressed = true;
+                }
+
             }
             else  // if there is no right value and operator is spammed. Change the operator
             {
