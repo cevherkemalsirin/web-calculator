@@ -2,8 +2,6 @@
 
 // left hand side value and right hand value with the operator in between i.e. 2 + 4 
 let LeftValue = 0, operator = "", rightValue = 0;
-let currentResult = 0;
-let operatorPressed = false;
 let isResultShown = false;
 
 const calculationText = document.querySelector(".calculation");
@@ -20,15 +18,9 @@ let operation = {
     "%" : (a,b) => a % b
 }
 
-function Operate (rValue, operator, lValue)
+function Operate(rValue, operator, lValue)
 {
     return operation[operator](rValue,lValue);
-}
-
-function TextToCalc(opText)
-{
-    [LeftValue , operator, rightValue ] = opText.split(" ");
-    return Operate(+LeftValue, operator, +rightValue);
 }
 
 bottomPart.addEventListener("click", (e)=>
@@ -48,6 +40,7 @@ bottomPart.addEventListener("click", (e)=>
         {
             calculationText.textContent += " = ";
              ShowResult();
+             isResultShown = true;
         }
     }
     else if(e.target.classList.contains("delete"))
@@ -69,45 +62,14 @@ function PressedOperator(button)
     //if screen is clean and there is no number, User should not put operator without left value
     if(calculationText.textContent)
     {
-        button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
-        if(!isResultShown)
+        if(!rightValue)
         {
-            if(!operatorPressed)
-            {
-                if(!rightValue)
-                {
-                    operatorPressed = true;
-                    calculationText.textContent += " " + operator + " " ; 
-                }
-                else
-                {
-                    LeftValue = Math.round(TextToCalc(calculationText.textContent) * 100) / 100;
-                    button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
-                    rightValue = "";
-                    calculationText.textContent = LeftValue + " " + operator + " " ; 
-                    operatorPressed = true;
-                }
-
-            }
-            else  // if there is no right value and operator is spammed. Change the operator
-            {
-                calculationText.textContent = calculationText.textContent.split(" ")[0] + " " + operator + " ";
-            }
-        }
-        else
-        {
-            ShowResult();
             button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
-            operatorPressed = true;
-            LeftValue = +resultText.textContent;
-            calculationText.textContent = `${LeftValue} ${operator} `;
-            isResultShown = false;
-            rightValue = 0;
-            resultText.innerHTML = "<br>";
+            calculationText.textContent = calculationText.textContent.split(" ")[0] + " " + operator + " ";
+            return;
         }
-
-    }
-
+        // if there are right value or result is shown.
+        MoveResultToLeft(button);
 }
 
 function PressedNum(button)
@@ -123,10 +85,20 @@ function PressedNum(button)
         else
         {
             rightValue = +calculationText.textContent.split(" ")[2];
-            operatorPressed = false;
         }
     }
 
+}
+
+function MoveResultToLeft(button)
+{
+    ShowResult();
+    button.classList.contains("btn-pow") ? operator = button.getAttribute("data-op") : operator = button.textContent;
+    LeftValue = +resultText.textContent;
+    rightValue = "";
+    calculationText.textContent = `${LeftValue} ${operator} `;
+    resultText.innerHTML = "<br>";
+    isResultShown = false;
 }
 
 function CleanScreen()
@@ -137,30 +109,27 @@ function CleanScreen()
     operator = "";
     resultText.innerHTML = "<br>";
     calculationText.textContent = "";
-    operatorPressed = false;
 }
 
 function RemoveDigit()
 {
-    console.log(rightValue);
-        if(rightValue)
-        {
-            rightValue = Math.trunc(rightValue / 10);
-            calculationText.textContent = calculationText.textContent.slice(0,-1);
-        }
-        else if(operator)
-        {
-            operator = "";
-            calculationText.textContent =  calculationText.textContent.slice (0,-3);
-        }
-        else if(LeftValue)
-        {
-            calculationText.textContent = calculationText.textContent.slice(0,-1);
-        }
+    if(rightValue)
+    {
+        rightValue = Math.trunc(rightValue / 10);
+        calculationText.textContent = calculationText.textContent.slice(0,-1);
+    }
+    else if(operator)
+    {
+        operator = "";
+        calculationText.textContent =  calculationText.textContent.slice (0,-3);
+    }
+    else if(LeftValue)
+    {
+        calculationText.textContent = calculationText.textContent.slice(0,-1);
+    }
 }
 
 function ShowResult()
 {
-    resultText.textContent = Math.round(TextToCalc(calculationText.textContent) * 100) / 100;
-    isResultShown = true;
+    resultText.textContent = Math.round(Operate(LeftValue,operator,rightValue) * 100) / 100;
 }
